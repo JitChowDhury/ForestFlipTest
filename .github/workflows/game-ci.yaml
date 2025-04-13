@@ -131,3 +131,28 @@ jobs:
       with:
         name: Test results for standalone test
         path: ${{ steps.standalone-test.outputs.artifactsPath }}
+
+  publish-to-itchio:
+    name: Butler Push to Itch
+    runs-on: ubuntu-latest
+    needs: [unit-test, build-project]
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Build-Artifact
+          path: StandaloneWindows64
+
+      - name: Butler Push
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: windows
+          ITCH_GAME: ForestFlipTest
+          ITCH_USER: jitch123
+          PACKAGE: StandaloneWindows64
+      - name: Cleanup to avoid storage limit
+        if: always()
+        uses: geekyeggo/delete-artifact@v1
+        with:
+            name: StandaloneWindows64
