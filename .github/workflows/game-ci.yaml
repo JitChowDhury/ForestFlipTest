@@ -148,7 +148,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
-          ITCH_GAME: ForestFlipTest
+          ITCH_GAME: foresttest
           ITCH_USER: jitch123
           PACKAGE: StandaloneWindows64
       - name: Cleanup to avoid storage limit
